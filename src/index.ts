@@ -121,8 +121,8 @@ async function handle_post(request: Request, bucket: R2Bucket, env:Env): Promise
 
 		switch (resource_path) {
 				case "login":
-						const userName = await evn.kv.get("userName");
-						const password = await evn.kv.get("password");
+						const userName = await env.kv.get("userName");
+						const password = await env.kv.get("password");
 						if(!userName || !password || userName === data.userName && password === data.password){
 								const token = generateUUID();
 
