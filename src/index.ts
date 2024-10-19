@@ -231,7 +231,7 @@ async function dispatch_handler(request: Request, bucket: R2Bucket, env: Env): P
 		}
 }
 
-async function checkAuth(request: Request, env: Env) : boolean {
+async function checkAuth(request: Request, env: Env) : Promise<boolean> {
 		if(request.method === 'OPTIONS'){
 				return true;
 		}
