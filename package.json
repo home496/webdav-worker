@@ -16,5 +16,5 @@
 		"wrangler": "^3.81.0"
 	},
 	"type": "module",
-	"packageManager": "npm@10.8.2"
+	"packageManager": "yarn@1.22.18"
 }
