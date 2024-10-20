@@ -118,7 +118,11 @@ async function handle_post(request: Request, bucket: R2Bucket, env:Env): Promise
 		}
 
 		let resource_path = make_resource_path(request);
-		const data = JSON.parse(await request.text());
+		const text = await request.text();
+		let data;
+		if(text){
+				data = JSON.parse(text);
+		}
 
 		switch (resource_path) {
 				case "login":
