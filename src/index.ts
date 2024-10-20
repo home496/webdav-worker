@@ -7,7 +7,7 @@
  *
  * Learn more at https://developers.cloudflare.com/workers/
  */
-import { Snowflake } from './snowflake';
+import { Snowflake } from './Snowflake';
 
 const VERSION = "1.0"
 
