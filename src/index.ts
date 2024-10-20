@@ -8,7 +8,7 @@
  * Learn more at https://developers.cloudflare.com/workers/
  */
 
-const VERSION = "1.0"
+const VERSION = "1.01"
 
 export interface Env {
 		// Example binding to KV. Learn more at https://developers.cloudflare.com/workers/runtime-apis/kv/
