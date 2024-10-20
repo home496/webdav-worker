@@ -134,7 +134,7 @@ async function handle_post(request: Request, bucket: R2Bucket, env:Env): Promise
 								const snowflake = new Snowflake(1, 1); // worker ID 和 datacenter ID
 								const token = snowflake.nextId();
 
-								env.kv.put("token", token, {expirationTtl: 3600 * 24 * 3})
+								await env.kv.put("token", token, {expirationTtl: 3600 * 24 * 3})
 
 								return new Response(token, { status: 200 });
 						}
@@ -253,6 +253,8 @@ async function checkAuth(request: Request, env: Env) : Promise<boolean> {
 				}
 		}
 
+		console.log('Authorization', request.headers.get('Authorization'))
+		console.log('token', await env.kv.get("token"))
 		return request.headers.get('Authorization') === await env.kv.get("token");
 }
 
