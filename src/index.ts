@@ -84,7 +84,7 @@ async function handle_put(request: Request, bucket: R2Bucket): Promise<Response>
 				return new Response('Method Not Allowed', { status: 405 });
 		}
 
-		let resource_path = make_resource_path(request);
+		let resource_path = make_resource_path(request).substring(1);
 
 		// Check if the parent directory exists
 		let dirpath = resource_path.split('/').slice(0, -1).join('/');
@@ -129,7 +129,7 @@ async function handle_post(request: Request, bucket: R2Bucket, env:Env): Promise
 						const userName = await env.kv.get("userName" );
 						const password = await env.kv.get("password");
 						if(!userName || !password || userName === data.userName && password === data.password){
-								const token = generateUUID().replaceAll('-', '');
+								const token = 'AUTH' + generateUUID().replaceAll('-', '');
 
 								env.kv.put("token", token, {expirationTtl: 3600 * 24 * 3})
 
