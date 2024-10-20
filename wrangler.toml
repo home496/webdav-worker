@@ -18,7 +18,7 @@ head_sampling_rate = 1 # optional. default = 1.
 # Docs: https://developers.cloudflare.com/workers/runtime-apis/kv
 [[kv_namespaces]]
 binding = "kv"
-id = "ef700205e61e4d0f8dc7fc6a2bfd1681"
+id = "842ce414c36f484daec97bbcaa6ead26"
 
 # Bind an R2 Bucket. Use R2 to store arbitrarily large blobs of data, such as files.
 # Docs: https://developers.cloudflare.com/r2/api/workers/workers-api-usage/
