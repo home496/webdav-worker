@@ -125,7 +125,7 @@ async function handle_post(request: Request, bucket: R2Bucket, env:Env): Promise
 						const userName = await env.kv.get("userName" );
 						const password = await env.kv.get("password");
 						if(!userName || !password || userName === data.userName && password === data.password){
-								const token = generateUUID().replace(/-/, '');
+								const token = generateUUID().replaceAll(/-/, '');
 
 								env.kv.put("token", token, {expirationTtl: 3600 * 24 * 3})
 
