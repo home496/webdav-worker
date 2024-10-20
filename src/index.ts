@@ -7,7 +7,6 @@
  *
  * Learn more at https://developers.cloudflare.com/workers/
  */
-import { Snowflake } from './Snowflake';
 
 const VERSION = "1.0"
 
@@ -131,8 +130,7 @@ async function handle_post(request: Request, bucket: R2Bucket, env:Env): Promise
 						const userName = await env.kv.get("userName" );
 						const password = await env.kv.get("password");
 						if(!userName || !password || userName === data.userName && password === data.password){
-								const snowflake = new Snowflake(1, 1); // worker ID 和 datacenter ID
-								const token = snowflake.nextId();
+								const token = generateUUID();
 
 								await env.kv.put("token", token, {expirationTtl: 3600 * 24 * 3})
 
@@ -253,8 +251,6 @@ async function checkAuth(request: Request, env: Env) : Promise<boolean> {
 				}
 		}
 
-		console.log('Authorization', request.headers.get('Authorization'))
-		console.log('token', await env.kv.get("token"))
 		return request.headers.get('Authorization') === await env.kv.get("token");
 }
 
