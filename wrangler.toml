@@ -16,9 +16,9 @@ head_sampling_rate = 1 # optional. default = 1.
 
 # Bind a KV Namespace. Use KV as persistent storage for small key-value pairs.
 # Docs: https://developers.cloudflare.com/workers/runtime-apis/kv
-[[kv_namespaces]]
-binding = "kv"
-id = "842ce414c36f484daec97bbcaa6ead26"
+# [[kv_namespaces]]
+# binding = "kv"
+# id = "842ce414c36f484daec97bbcaa6ead26"
 
 # Bind an R2 Bucket. Use R2 to store arbitrarily large blobs of data, such as files.
 # Docs: https://developers.cloudflare.com/r2/api/workers/workers-api-usage/

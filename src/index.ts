@@ -27,9 +27,7 @@ export interface Env {
 		// MY_QUEUE: Queue;
 
 		// Variables defined in the "Environment Variables" section of the Wrangler CLI or dashboard
-		USERNAME: string;
-		PASSWORD: string;
-		kv: KVNamespace;
+		SECRET: string;
 
 }
 
@@ -126,18 +124,6 @@ async function handle_post(request: Request, bucket: R2Bucket, env:Env): Promise
 		}
 
 		switch (resource_path) {
-				case "login":
-						const userName = await env.kv.get("userName" );
-						const password = await env.kv.get("password");
-						if(!userName || !password || userName === data.userName && password === data.password){
-								const token = generateUUID();
-
-								await env.kv.put("token", token, {expirationTtl: 3600 * 24 * 3})
-
-								return new Response(token, { status: 200 });
-						}
-
-						return new Response(null, { status: 401 });
 				case "version":
 						return new Response(VERSION, { status:200 });
 				default:
@@ -147,6 +133,12 @@ async function handle_post(request: Request, bucket: R2Bucket, env:Env): Promise
 
 async function handle_delete(request: Request, bucket: R2Bucket): Promise<Response> {
 		let resource_path = make_resource_path(request);
+
+		const body = await request.text();
+		if(body){
+				await bucket.delete(JSON.parse(body));
+				return new Response(null, { status: 204 });
+		}
 
 		if (resource_path === '') {
 				let r2_objects,
@@ -246,12 +238,12 @@ async function checkAuth(request: Request, env: Env) : Promise<boolean> {
 
 		if(request.method === 'POST'){
 				const path = make_resource_path(request);
-				if(path === 'login' || path === 'version' ){
+				if(path === 'version' ){
 						return true;
 				}
 		}
 
-		return request.headers.get('Authorization') === await env.kv.get("token");
+		return request.headers.get('Authorization') === env.SECRET;
 }
 
 export default {
