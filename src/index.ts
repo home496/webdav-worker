@@ -7,6 +7,7 @@
  *
  * Learn more at https://developers.cloudflare.com/workers/
  */
+const VERSION = "1.0"
 
 export interface Env {
 		// Example binding to KV. Learn more at https://developers.cloudflare.com/workers/runtime-apis/kv/
@@ -124,7 +125,7 @@ async function handle_post(request: Request, bucket: R2Bucket, env:Env): Promise
 						const userName = await env.kv.get("userName" );
 						const password = await env.kv.get("password");
 						if(!userName || !password || userName === data.userName && password === data.password){
-								const token = generateUUID();
+								const token = generateUUID().replace(/-/, '');
 
 								env.kv.put("token", token, {expirationTtl: 3600 * 24 * 3})
 
@@ -132,6 +133,8 @@ async function handle_post(request: Request, bucket: R2Bucket, env:Env): Promise
 						}
 
 						return new Response(null, { status: 401 });
+				case "version":
+						return new Response(VERSION, { status:200 });
 				default:
 						return new Response(null, { status: 404 });
 		}
@@ -238,7 +241,7 @@ async function checkAuth(request: Request, env: Env) : Promise<boolean> {
 
 		if(request.method === 'POST'){
 				const path = make_resource_path(request);
-				if(path === 'login'){
+				if(path === 'login' || path === 'version' ){
 						return true;
 				}
 		}
